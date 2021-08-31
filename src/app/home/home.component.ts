@@ -37,6 +37,11 @@ export class HomeComponent implements OnInit {
   private fetchEmployees() {
     this.http.get<IEmployeeResponse>('http://dummy.restapiexample.com/api/v1/employees').subscribe(res => {
       this.store.dispatch(UpdateEmployees({employees: (res.data as IEmployee[])}))
+      if ((res.data as IEmployee[])) {
+        this.thereAreEmployees = true;
+      } else {
+        this.thereAreEmployees = false;
+      }
     });
   }
 }

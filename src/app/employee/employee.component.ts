@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IEmployee, IEmployeeResponse } from '@models/employee';
 import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { IInitialState } from '../home/store/home.reducer';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-employee',
@@ -19,11 +22,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class EmployeeComponent implements OnInit {
   id: number | null = null;
-  employee: IEmployee = {id: 0, employee_name: "", employee_age: 0, employee_salary: 0, profile_image: ""};
+  employee: IEmployee | undefined;
+  employees$: Observable<IEmployee[]> | undefined;
+  employees: IEmployee[] | undefined;
   thereIsAnEmployee: boolean = false;
   showReplyButton: boolean = false;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {
+  constructor(private route: ActivatedRoute, private http: HttpClient, private store: Store<{home: IInitialState}>) {
     setTimeout(() => {
       this.showReplyButton = true;
     }, 2000);
@@ -31,6 +36,14 @@ export class EmployeeComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = + (this.route.snapshot.paramMap.get('id') as string);
+    this.store.select((store) => store.home.employees).subscribe(data => this.employees = data);
+    if ((this.employees as IEmployee[]).length) {
+      this.employee = (this.employees as IEmployee[]).find(employee => employee.id === this.id);
+      if (this.employee != undefined) {
+        this.thereIsAnEmployee = true;
+        return;
+      }
+    }
     this.onFetchEmployee();
   }
 
