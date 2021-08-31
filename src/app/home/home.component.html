@@ -1,7 +1,7 @@
 
 <div id="container">
   <mat-nav-list *ngIf='thereAreEmployees'>
-    <a mat-list-item [routerLink]="'employee/'+employee.id" *ngFor="let employee of employees"> {{ employee.employee_name }}</a>
+    <a mat-list-item [routerLink]="'employee/'+employee.id" *ngFor="let employee of (employees$ | async)"> {{ employee.employee_name }}</a>
   </mat-nav-list>
 </div>
 

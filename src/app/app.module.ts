@@ -15,6 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
+import { StoreModule } from '@ngrx/store';
+import { homeReducer } from './home/store/home.reducer';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-    MatCardModule
+    MatCardModule,
+    StoreModule.forRoot({home: homeReducer})
   ],
   providers: [],
   bootstrap: [AppComponent]
