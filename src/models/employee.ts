@@ -5,3 +5,9 @@ export interface IEmployee {
   employee_age: number,
   profile_image: string
 }
+
+export interface IEmployeeResponse {
+  status: string,
+  data: IEmployee[] | IEmployee,
+  message: string,
+}

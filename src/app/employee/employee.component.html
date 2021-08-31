@@ -1,9 +1,22 @@
-
-<div id="container">
+<div id="container" *ngIf='thereIsAnEmployee'>
+  <mat-card-title>
+    {{ employee.employee_name }}
+    
+  </mat-card-title>
+  <mat-card-subtitle>
+    Age: {{ employee.employee_age }}
+  </mat-card-subtitle>
+  <mat-card-content>
+    ID: {{ employee.id }} <br>
+    Salary: {{ employee.employee_salary }}
+  </mat-card-content>
   <button mat-icon-button routerLink="/" color="primary">
     <mat-icon>home</mat-icon>
     Go back
   </button>
+</div>
+<div id="container" *ngIf='!thereIsAnEmployee'>
+  <mat-spinner></mat-spinner>
   
-  <div>{{ id }}</div>
+  <button *ngIf='showReplyButton' (click)='onFetchEmployee()'>Reload</button>
 </div>
