@@ -16,17 +16,23 @@ import { homeReducer, IInitialState, UpdateEmployees } from './store/home.reduce
 })
 export class HomeComponent implements OnInit {
   employees$: Observable<IEmployee[]> | undefined;
+
+  // Check if the load was successful
   thereAreEmployees: boolean = false;
+  // Check if the reload was successful
   showReplyButton: boolean = false;
 
   constructor(private http: HttpClient, private store: Store<{home: IInitialState}>) { 
+    // Wait 2 seconds if the load fails
     setTimeout(() => {
       this.showReplyButton = true;
     }, 2000);
   }
 
   ngOnInit(): void {
+    // Get employees from store
     this.employees$ = this.store.select((store) => store.home.employees);
+    // Fetch employees from API
     this.fetchEmployees();
   }
 
@@ -35,13 +41,12 @@ export class HomeComponent implements OnInit {
   }
 
   private fetchEmployees() {
+    // Fetch employees from API
     this.http.get<IEmployeeResponse>('http://dummy.restapiexample.com/api/v1/employees').subscribe(res => {
+      // Replace of list of employees in the store with new employees
       this.store.dispatch(UpdateEmployees({employees: (res.data as IEmployee[])}))
-      if ((res.data as IEmployee[])) {
-        this.thereAreEmployees = true;
-      } else {
-        this.thereAreEmployees = false;
-      }
+      // Tell component that the fetch was successful or not
+      res.data as IEmployee[] ? this.thereAreEmployees = true : this.thereAreEmployees = false;
     });
   }
 }

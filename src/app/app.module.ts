@@ -25,8 +25,6 @@ import { homeReducer } from './home/store/home.reducer';
     PageNotFoundComponent,
     HomeComponent,
     EmployeeNoIdComponent,
-    
-    
   ],
   imports: [
     MatListModule,
